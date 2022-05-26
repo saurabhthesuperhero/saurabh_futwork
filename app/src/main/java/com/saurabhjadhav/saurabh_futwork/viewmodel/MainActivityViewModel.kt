@@ -8,7 +8,6 @@ import com.saurabhjadhav.saurabh_futwork.retrofit.RetroInstance
 import com.saurabhjadhav.saurabh_futwork.retrofit.RetroServiceInterface
 import retrofit2.Call
 import retrofit2.Response
-import javax.security.auth.callback.Callback
 
 class MainActivityViewModel : ViewModel() {
     lateinit var liveDataList: MutableLiveData<ArrayList<TeleProjectModel>>
@@ -32,12 +31,12 @@ class MainActivityViewModel : ViewModel() {
                 call: Call<ArrayList<TeleProjectModel>>,
                 response: Response<ArrayList<TeleProjectModel>>
             ) {
-                Log.e("checkData", "onResponse: "+response.body() )
+                Log.e("checkData", "onResponse: " + response.body())
                 liveDataList.postValue(response.body())
             }
 
             override fun onFailure(call: Call<ArrayList<TeleProjectModel>>, t: Throwable) {
-                Log.e("checkData", "onFailure: "+t)
+                Log.e("checkData", "onFailure: " + t)
                 liveDataList.postValue(null)
             }
 

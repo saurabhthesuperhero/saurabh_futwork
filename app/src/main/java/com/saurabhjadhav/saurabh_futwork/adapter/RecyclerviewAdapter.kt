@@ -22,8 +22,8 @@ class RecyclerviewAdapter : RecyclerView.Adapter<RecyclerviewAdapter.MyViewHolde
     private var tempProjectList: ArrayList<TeleProjectModel>? = null
 
     fun setProjectList(projectList: ArrayList<TeleProjectModel>?) {
-        this.projectList = projectList
-        this.tempProjectList = projectList
+        this.tempProjectList = projectList as ArrayList<TeleProjectModel>
+        this.projectList = tempProjectList
 
     }
 
@@ -34,19 +34,13 @@ class RecyclerviewAdapter : RecyclerView.Adapter<RecyclerviewAdapter.MyViewHolde
                 var resultList = ArrayList<TeleProjectModel>()
 
                 if (charSearch.isEmpty() || charSearch.isBlank()) {
-                    resultList = tempProjectList!!
+                    projectList = tempProjectList!!
                 } else {
-                    for (row in projectList!!) {
-                        if (row.title.lowercase(Locale.ROOT)
-                                .contains(charSearch.lowercase(Locale.ROOT))
-                        ) {
-                            resultList.add(row)
-                        }
-                    }
+
+                    tempProjectList?.filter {it.title!!.contains(charSearch) }!!.forEach { resultList.add(it) }
+                    projectList=resultList
                 }
-                val filterResults = FilterResults()
-                filterResults.values = resultList
-                return filterResults
+                return FilterResults().apply { values=projectList }
             }
 
             @Suppress("UNCHECKED_CAST")

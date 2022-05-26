@@ -15,7 +15,6 @@ import com.saurabhjadhav.saurabh_futwork.viewmodel.MainActivityViewModel
 class MainActivity : AppCompatActivity() {
     lateinit var recyclerviewAdapter: RecyclerviewAdapter
     private lateinit var binding: ActivityMainBinding
-    lateinit var tempList: ArrayList<TeleProjectModel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -27,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private fun initSearchView() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                recyclerviewAdapter.filter.filter(query)
                 return false
             }
 
@@ -47,13 +47,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        tempList = arrayListOf()
         val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         viewModel.getLiveDataObserver().observe(this) {
             if (it != null) {
                 recyclerviewAdapter.setProjectList(it)
                 recyclerviewAdapter.notifyDataSetChanged()
-                tempList.addAll(it)
             } else {
                 Toast.makeText(this, "Error in getting data", Toast.LENGTH_LONG).show()
             }
