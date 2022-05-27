@@ -1,6 +1,7 @@
 package com.saurabhjadhav.saurabh_futwork.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.saurabhjadhav.saurabh_futwork.adapter.RecyclerviewAdapter
@@ -18,7 +19,7 @@ class MainActivityViewModel : ViewModel() {
 
     }
 
-    fun getLiveDataObserver(): MutableLiveData<ArrayList<TeleProjectModel>> {
+    fun getLiveDataObserver(): LiveData<ArrayList<TeleProjectModel>> {
         return liveDataList
     }
 

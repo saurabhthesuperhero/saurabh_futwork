@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
                 if (query != null) {
                     viewModel.filterList(query,recyclerviewAdapter)
                 }
-//                recyclerviewAdapter.filter.filter(query)
                 return false
             }
 
@@ -39,7 +38,6 @@ class MainActivity : AppCompatActivity() {
                 if (newText != null) {
                     viewModel.filterList(newText,recyclerviewAdapter)
                 }
-//                recyclerviewAdapter.filter.filter(newText)
                 return false
             }
 
