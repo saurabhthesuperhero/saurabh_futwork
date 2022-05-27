@@ -76,10 +76,8 @@ class RecyclerviewAdapter : RecyclerView.Adapter<RecyclerviewAdapter.MyViewHolde
         Glide.with(context).load(projectList?.get(position)?.logo).into(binding.imgLogo)
     }
 
-    override fun getItemCount(): Int {
-        return if (projectList == null) 0
-        else projectList?.size!!
-    }
+    override fun getItemCount(): Int = if (projectList == null) 0
+    else projectList?.size!!
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }
