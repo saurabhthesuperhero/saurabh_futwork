@@ -15,14 +15,11 @@ class RecyclerviewAdapter : RecyclerView.Adapter<RecyclerviewAdapter.MyViewHolde
     private lateinit var binding: ProjectListItemBinding
     private lateinit var context: Context
     var projectList: ArrayList<TeleProjectModel>? = null
+        set(value) {
+            field = value
+            tempProjectList = value
+        }
     var tempProjectList: ArrayList<TeleProjectModel>? = null
-
-    @JvmName("setProjectList1")
-    fun setProjectList(list: ArrayList<TeleProjectModel>?) {
-        tempProjectList = list as ArrayList<TeleProjectModel>
-        projectList = tempProjectList
-
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -35,21 +32,23 @@ class RecyclerviewAdapter : RecyclerView.Adapter<RecyclerviewAdapter.MyViewHolde
             parent,
             false
         )
-        return MyViewHolder(binding.root)
-
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerviewAdapter.MyViewHolder, position: Int) {
-
-        binding.tvTitle.text = projectList?.get(position)?.title
-        binding.tvEarning.text =
-            "Earnings: ₹" + projectList?.get(position)?.earning.toString() + "/ spoken minute"
-        binding.tvSessionType.text = projectList?.get(position)?.description
-        Glide.with(context).load(projectList?.get(position)?.logo).into(binding.imgLogo)
+        tempProjectList?.get(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int = if (projectList == null) 0
-    else projectList?.size!!
+    override fun getItemCount(): Int = if (tempProjectList == null) 0 else tempProjectList?.size!!
 
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class MyViewHolder(private val binding: ProjectListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(teleProject: TeleProjectModel) {
+            binding.tvTitle.text = teleProject.title
+            binding.tvEarning.text =
+                "Earnings: ₹" + teleProject.earning.toString() + "/ spoken minute"
+            binding.tvSessionType.text = teleProject.description
+            Glide.with(context).load(teleProject.logo).into(binding.imgLogo)
+        }
+    }
 }

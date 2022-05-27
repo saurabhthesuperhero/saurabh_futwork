@@ -12,6 +12,7 @@ import com.saurabhjadhav.saurabh_futwork.data.TeleProjectModel
 import com.saurabhjadhav.saurabh_futwork.databinding.ActivityMainBinding
 import com.saurabhjadhav.saurabh_futwork.viewmodel.MainActivityViewModel
 
+
 class MainActivity : AppCompatActivity() {
     lateinit var recyclerviewAdapter: RecyclerviewAdapter
     private lateinit var binding: ActivityMainBinding
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         viewModel.getLiveDataObserver().observe(this) {
             if (it != null) {
-                recyclerviewAdapter.setProjectList(it)
+                recyclerviewAdapter.projectList = it
                 recyclerviewAdapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(this, "Error in getting data", Toast.LENGTH_LONG).show()
