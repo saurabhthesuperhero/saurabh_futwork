@@ -4,52 +4,24 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.saurabhjadhav.saurabh_futwork.R
 import com.saurabhjadhav.saurabh_futwork.data.TeleProjectModel
 import com.saurabhjadhav.saurabh_futwork.databinding.ProjectListItemBinding
-import java.util.*
-import kotlin.collections.ArrayList
 
-class RecyclerviewAdapter : RecyclerView.Adapter<RecyclerviewAdapter.MyViewHolder>(), Filterable {
+class RecyclerviewAdapter : RecyclerView.Adapter<RecyclerviewAdapter.MyViewHolder>() {
     private lateinit var binding: ProjectListItemBinding
     private lateinit var context: Context
-    private var projectList: ArrayList<TeleProjectModel>? = null
-    private var tempProjectList: ArrayList<TeleProjectModel>? = null
+    var projectList: ArrayList<TeleProjectModel>? = null
+    var tempProjectList: ArrayList<TeleProjectModel>? = null
 
-    fun setProjectList(projectList: ArrayList<TeleProjectModel>?) {
-        this.tempProjectList = projectList as ArrayList<TeleProjectModel>
-        this.projectList = tempProjectList
+    @JvmName("setProjectList1")
+    fun setProjectList(list: ArrayList<TeleProjectModel>?) {
+        tempProjectList = list as ArrayList<TeleProjectModel>
+        projectList = tempProjectList
 
-    }
-
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charSearch = constraint.toString()
-                var resultList = ArrayList<TeleProjectModel>()
-
-                if (charSearch.isEmpty() || charSearch.isBlank()) {
-                    projectList = tempProjectList!!
-                } else {
-
-                    tempProjectList?.filter {it.title!!.contains(charSearch) }!!.forEach { resultList.add(it) }
-                    projectList=resultList
-                }
-                return FilterResults().apply { values=projectList }
-            }
-
-            @Suppress("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                projectList = results?.values as ArrayList<TeleProjectModel>
-                notifyDataSetChanged()
-            }
-
-        }
     }
 
     override fun onCreateViewHolder(

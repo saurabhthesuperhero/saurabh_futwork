@@ -3,6 +3,7 @@ package com.saurabhjadhav.saurabh_futwork.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.saurabhjadhav.saurabh_futwork.adapter.RecyclerviewAdapter
 import com.saurabhjadhav.saurabh_futwork.data.TeleProjectModel
 import com.saurabhjadhav.saurabh_futwork.retrofit.RetroInstance
 import com.saurabhjadhav.saurabh_futwork.retrofit.RetroServiceInterface
@@ -19,6 +20,19 @@ class MainActivityViewModel : ViewModel() {
 
     fun getLiveDataObserver(): MutableLiveData<ArrayList<TeleProjectModel>> {
         return liveDataList
+    }
+
+    fun filterList(term: String, adapter: RecyclerviewAdapter) {
+        if (term != "") {
+            val list = adapter.projectList?.filter { it.title!!.contains(term.trim(), true) } as ArrayList<TeleProjectModel>
+            adapter.projectList = list
+            adapter.notifyDataSetChanged()
+
+        } else {
+            adapter.projectList = liveDataList.value
+            adapter.notifyDataSetChanged()
+        }
+
     }
 
     fun makeApiCall() {

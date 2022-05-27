@@ -18,20 +18,28 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        initSearchView()
         initRecyclerView()
         initViewModel()
+        initSearchView()
+
     }
 
     private fun initSearchView() {
+        val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                recyclerviewAdapter.filter.filter(query)
+                if (query != null) {
+                    viewModel.filterList(query,recyclerviewAdapter)
+                }
+//                recyclerviewAdapter.filter.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                recyclerviewAdapter.filter.filter(newText)
+                if (newText != null) {
+                    viewModel.filterList(newText,recyclerviewAdapter)
+                }
+//                recyclerviewAdapter.filter.filter(newText)
                 return false
             }
 
